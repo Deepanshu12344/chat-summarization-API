@@ -1,6 +1,6 @@
 fastapi
 motor
 pymongo
-openai
 uvicorn
 python-dotenv
+google-generativeai
