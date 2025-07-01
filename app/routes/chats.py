@@ -18,7 +18,7 @@ async def store_chat(chat: ChatCreate):
     return {"message": "Chat stored"}
 
 @router.get("/chats/{conversation_id}")
-async def get_conversation(conversation_id: str):
+async def get_conversation(conversation_id: str):   
     docs = await db.chats.find({"conversation_id": conversation_id}).to_list(1000)
     return [serialize_doc(doc) for doc in docs]
 
