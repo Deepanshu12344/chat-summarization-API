@@ -1,0 +1,6 @@
+fastapi
+motor
+pymongo
+openai
+uvicorn
+python-dotenv
