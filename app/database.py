@@ -24,7 +24,6 @@ if not MONGO_URI:
 
 client = AsyncIOMotorClient(MONGO_URI)
 
-# Check if get_default_database returns something valid
 default_db = client.get_default_database()
 if default_db is not None:
     db = default_db
