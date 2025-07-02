@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import os
 
 BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:9000")
 
