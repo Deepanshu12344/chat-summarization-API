@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.env
+.env.*
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Logs
+*.log
+logs/
+*.pid
+
+# Byte-compiled / cache
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+
+# Env files
+.env
+*.env
+
+# Virtual environment
+venv/
+env/
+.venv/
+.python-version
+
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Docker
+*.db
+*.pid
+docker-compose.override.yml
+__pycache__/
+build/
+tmp/
+*.sqlite3
+
+# Mongo dump or data
+dump/
+*.bson
+*.wt
+*.ns
+*.0
+
+# Uvicorn reload artifacts
+*.reload
+
+# Coverage/test
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+tests/__pycache__/
+coverage.xml
+test-results.xml
+
+# Dist
+dist/
+build/
+*.egg
+*.whl
+*.tar.gz
+
+# FastAPI OpenAPI cache
+openapi.json
