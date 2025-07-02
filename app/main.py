@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.routes import chats, users
 from app.database import init_indexes
 
+
 app = FastAPI()
 
 @app.get("/")
