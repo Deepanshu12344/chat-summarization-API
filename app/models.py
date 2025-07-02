@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime
 
 class ChatCreate(BaseModel):
@@ -17,3 +17,5 @@ class SummarizeRequest(BaseModel):
 
 class SummaryResponse(BaseModel):
     summary: str
+
+

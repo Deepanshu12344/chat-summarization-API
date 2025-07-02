@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Summarization WebSocket</title>
+</head>
+<body>
+    <h2>Chat Summarization WebSocket</h2>
+    <label>User ID:</label><input type="text" id="userId" placeholder="e.g., alice"><br>
+    <label>Conversation ID:</label><input type="text" id="conversationId" placeholder="e.g., convo1"><br>
+    <label>Sender:</label><input type="text" id="sender" placeholder="e.g., Alice"><br>
+    <button onclick="connect()">Connect</button><br><br>
+
+    <div id="chat-box" style="border:1px solid #ccc; padding:10px; width:300px; height:200px; overflow-y:scroll;"></div><br>
+    <input type="text" id="messageInput" placeholder="Type a message">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="summarize()">Summarize Chat</button>
+
+    <script>
+        let socket;
+
+        function connect() {
+            const userId = document.getElementById("userId").value;
+            const conversationId = document.getElementById("conversationId").value;
+
+            socket = new WebSocket(`ws://localhost:8000/ws/${userId}/${conversationId}`);
+
+            socket.onopen = () => appendMessage("✅ Connected");
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.summary) {
+                    appendMessage("📝 Summary: " + data.summary);
+                } else if (data.message) {
+                    appendMessage(`${data.sender}: ${data.message}`);
+                } else if (data.status) {
+                    appendMessage("✅ " + data.status);
+                }
+            };
+            socket.onclose = () => appendMessage("❌ Disconnected");
+            socket.onerror = (err) => appendMessage("⚠️ Error: " + err);
+        }
+
+        function sendMessage() {
+            socket.send(JSON.stringify({
+                user_id: document.getElementById("userId").value,
+                conversation_id: document.getElementById("conversationId").value,
+                sender: document.getElementById("sender").value,
+                message: document.getElementById("messageInput").value,
+                timestamp: new Date().toISOString()
+            }));
+        }
+
+        function summarize() {
+            socket.send(JSON.stringify({ summarize: true }));
+        }
+
+        function appendMessage(msg) {
+            const box = document.getElementById("chat-box");
+            box.innerHTML += msg + "<br>";
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+</body>
+</html>
