@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-BASE_URL = "http://127.0.0.1:9000"
+BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:9000")
 
 st.title("Chat Summarization Interface")
 
