@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from app.models import ChatCreate, SummarizeRequest, SummaryResponse
 from app.crud import insert_chat, get_conversation, delete_conversation
-from app.llm_utils import summarize_chat
+from app.llm_utils import summarize_chat, analyze_conversation
 from app.database import db
 from bson import ObjectId
 
@@ -34,3 +34,10 @@ async def summarize(request: SummarizeRequest):
     messages = [c["message"] for c in chat]
     summary = await summarize_chat(messages)
     return {"summary": summary}
+
+@router.post("/chats/analyze", response_model=SummaryResponse)
+async def analyze(request: SummarizeRequest):
+    chat = await get_conversation(request.conversation_id)
+    messages = [c["message"] for c in chat]
+    analysis = await analyze_conversation(messages)
+    return {"summary": analysis}
