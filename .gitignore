@@ -25,6 +25,7 @@ logs/
 
 # Env files
 .env
+__pycache__/
 *.env
 
 # Virtual environment
