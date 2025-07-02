@@ -3,4 +3,5 @@ motor
 pymongo
 uvicorn
 python-dotenv
-google-generativeai
+cohere
+streamlit
