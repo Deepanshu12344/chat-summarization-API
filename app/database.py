@@ -11,9 +11,10 @@ if not MONGO_URI:
 
 client = AsyncIOMotorClient(MONGO_URI)
 
-db = client["chatdb"]  # Fallback to manually named DB
+db = client["chatdb"] 
 
 async def init_indexes():
     await db.chats.create_index([("user_id", ASCENDING)])
     await db.chats.create_index([("conversation_id", ASCENDING)])
     await db.chats.create_index([("timestamp", ASCENDING)])
+    await db.users.create_index([("email", ASCENDING)], unique=True)

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 from datetime import datetime
 
@@ -18,4 +18,8 @@ class SummarizeRequest(BaseModel):
 class SummaryResponse(BaseModel):
     summary: str
 
+class UserCreate(BaseModel):
+    name: str = Field(..., min_length=2, max_length=50, description="Full name of the user")
+    email: EmailStr = Field(..., description="Valid email address")
+    password: str = Field(..., min_length=6, max_length=128, description="Password (min 6 chars)")
 
