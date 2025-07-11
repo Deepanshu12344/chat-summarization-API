@@ -6,3 +6,4 @@ python-dotenv
 cohere
 streamlit
 passlib
+PyJWT>=2.0.0
