@@ -6,6 +6,7 @@ from pymongo.errors import DuplicateKeyError
 from datetime import datetime, timedelta
 from passlib.hash import bcrypt
 import jwt
+from app.utils.auth import create_access_token
 
 
 JWT_SECRET = "your_jwt_secret"
@@ -47,32 +48,27 @@ async def register(user:UserCreate):
 
 
 # Login
-async def login(user:UserLogin):
-    #check existing user
-    existing_user = await db.users.find_one({"email":user.email})
+async def login(user: UserLogin):
+    # Check if user exists
+    existing_user = await db.users.find_one({"email": user.email})
     if not existing_user:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="User does not exist"
         )
-    #verify password
+
+    # Verify password
     if not bcrypt.verify(user.password, existing_user["password"]):
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Incorrect Password"
         )
-    
-    # Create JWT payload
-    payload = {
-        "sub": user.email,
-        "exp": datetime.utcnow() + timedelta(minutes=JWT_EXP_DELTA_MINUTES)
-    }
 
-    # Encode token
-    token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+    # Create JWT token
+    access_token = create_access_token({"sub": user.email})
 
     return {
         "message": "Login successful",
-        "access_token": token,
+        "access_token": access_token,
         "token_type": "bearer"
     }

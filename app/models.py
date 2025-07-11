@@ -29,6 +29,8 @@ class UserLogin(BaseModel):
     password: str = Field(..., min_length=6, max_length=128, description="Password (min 6 chars)")
 
 class UserResponse(BaseModel):
-    id: str
-    name: str
+    name: Optional[str]
     email: EmailStr
+
+    class Config:
+        orm_mode = True
