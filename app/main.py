@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import chats, users, auth
+from app.routes import chats, users, auth, request
 from app.database import init_indexes
 
 
@@ -19,3 +19,4 @@ async def startup():
 app.include_router(chats.router)
 app.include_router(users.router)
 app.include_router(auth.router)
+app.include_router(request.router)
