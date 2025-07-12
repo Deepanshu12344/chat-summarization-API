@@ -22,7 +22,9 @@ class UserCreate(BaseModel):
     name: str = Field(..., min_length=2, max_length=50, description="Full name of the user")
     email: EmailStr = Field(..., description="Valid email address")
     password: str = Field(..., min_length=6, max_length=128, description="Password (min 6 chars)")
-    friends: Optional[List[str]] = []
+    friends: List[str]= []
+    pending_requests: List[str] = []
+    sent_requests: List[str] = []   
 
 class UserLogin(BaseModel):
     email: EmailStr = Field(..., description="Valid email address")
