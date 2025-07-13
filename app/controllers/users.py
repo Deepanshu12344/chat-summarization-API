@@ -18,3 +18,4 @@ async def fetch_all_users_except_current(current_user_email:str):
             status_code=500,
             detail=f"Error fetching users:{str(e)}"
         )
+    

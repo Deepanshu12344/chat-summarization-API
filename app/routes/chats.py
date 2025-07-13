@@ -12,32 +12,32 @@ def serialize_doc(doc):
 
 router = APIRouter()
 
-@router.post("/chats")
-async def store_chat(chat: ChatCreate):
-    await insert_chat(chat)
-    return {"message": "Chat stored"}
+# @router.post("/chats")
+# async def store_chat(chat: ChatCreate):
+#     await insert_chat(chat)
+#     return {"message": "Chat stored"}
 
-@router.get("/chats/{conversation_id}")
-async def get_conversation(conversation_id: str):   
-    docs = await db.chats.find({"conversation_id": conversation_id}).to_list(1000)
-    return [serialize_doc(doc) for doc in docs]
+# @router.get("/chats/{conversation_id}")
+# async def get_conversation(conversation_id: str):   
+#     docs = await db.chats.find({"conversation_id": conversation_id}).to_list(1000)
+#     return [serialize_doc(doc) for doc in docs]
 
 
-@router.delete("/chats/{conversation_id}")
-async def delete_chat(conversation_id: str):
-    await delete_conversation(conversation_id)
-    return {"message": "Conversation deleted"}
+# @router.delete("/chats/{conversation_id}")
+# async def delete_chat(conversation_id: str):
+#     await delete_conversation(conversation_id)
+#     return {"message": "Conversation deleted"}
 
-@router.post("/chats/summarize", response_model=SummaryResponse)
-async def summarize(request: SummarizeRequest):
-    chat = await get_conversation(request.conversation_id)
-    messages = [c["message"] for c in chat]
-    summary = await summarize_chat(messages)
-    return {"summary": summary}
+# @router.post("/chats/summarize", response_model=SummaryResponse)
+# async def summarize(request: SummarizeRequest):
+#     chat = await get_conversation(request.conversation_id)
+#     messages = [c["message"] for c in chat]
+#     summary = await summarize_chat(messages)
+#     return {"summary": summary}
 
-@router.post("/chats/analyze", response_model=SummaryResponse)
-async def analyze(request: SummarizeRequest):
-    chat = await get_conversation(request.conversation_id)
-    messages = [c["message"] for c in chat]
-    analysis = await analyze_conversation(messages)
-    return {"summary": analysis}
+# @router.post("/chats/analyze", response_model=SummaryResponse)
+# async def analyze(request: SummarizeRequest):
+#     chat = await get_conversation(request.conversation_id)
+#     messages = [c["message"] for c in chat]
+#     analysis = await analyze_conversation(messages)
+#     return {"summary": analysis}

@@ -24,7 +24,8 @@ class UserCreate(BaseModel):
     password: str = Field(..., min_length=6, max_length=128, description="Password (min 6 chars)")
     friends: List[str]= []
     pending_requests: List[str] = []
-    sent_requests: List[str] = []   
+    sent_requests: List[str] = []
+    conversation_id: str   
 
 class UserLogin(BaseModel):
     email: EmailStr = Field(..., description="Valid email address")

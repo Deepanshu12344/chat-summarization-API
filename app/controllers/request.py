@@ -8,8 +8,8 @@ async def send_friend_request(sender_email:str, receiver_email:str):
             detail="You can't send friend request to yourself"
         )
     
-    sender = await db.users.find({"email":sender_email})
-    receiver = await db.users.find({"email":receiver_email})
+    sender = await db.users.find_one({"email":sender_email})
+    receiver = await db.users.find_one({"email":receiver_email})
 
     if not sender or not receiver:
         raise HTTPException(
@@ -31,6 +31,8 @@ async def send_friend_request(sender_email:str, receiver_email:str):
     
     await db.users.update_one({"email": receiver_email}, {"$push":{"pending_requests":sender_email}})
     await db.users.update_one({"email": sender_email}, {"$push":{"pending_requests":receiver_email}})
+
+    return {"message":"Request sent"}
 
 
 async def accept_friend_request(sender_email:str, receiver_email:str):
