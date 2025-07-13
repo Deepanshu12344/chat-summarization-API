@@ -3,8 +3,6 @@ from typing import Optional, List
 from datetime import datetime
 
 class ChatCreate(BaseModel):
-    sender_email: str
-    receiver_email: str
     message: str
     timestamp: Optional[datetime] = Field(default_factory=datetime.utcnow)
 

@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, Query
 from app.models import ChatCreate, SummarizeRequest, SummaryResponse
 from app.crud import insert_chat, get_conversation, delete_conversation
 from app.llm_utils import summarize_chat, analyze_conversation
 from app.database import db
+from app.controllers.chats import chat_with_friend
+from app.middleware.dependencies import get_current_user_email
 from bson import ObjectId
 
 def serialize_doc(doc):
@@ -11,6 +13,10 @@ def serialize_doc(doc):
     return doc
 
 router = APIRouter()
+
+@router.post("/send_msg")
+async def send_message(receiver_email: str = Query(...),  chat: ChatCreate = ..., current_user_email: str = Depends(get_current_user_email)):
+    return await chat_with_friend(current_user_email, receiver_email, chat)
 
 # @router.post("/chats")
 # async def store_chat(chat: ChatCreate):

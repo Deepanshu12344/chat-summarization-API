@@ -35,8 +35,10 @@ async def send_friend_request(sender_email:str, receiver_email:str):
 
         return {"message":"Request sent"}
     except Exception as e:
-        return {f"message":"system error i.e {e}"}
-
+        raise HTTPException(
+            status_code=500,
+            detail=f"System error: {str(e)}"
+        )
 
 async def accept_friend_request(sender_email:str, receiver_email:str):
     try:
@@ -71,4 +73,7 @@ async def accept_friend_request(sender_email:str, receiver_email:str):
         
         return {"message": "Request Accepted"}
     except Exception as e:
-        return {f"message":"system error i.e {e}"}
+        raise HTTPException(
+            status_code=500,
+            detail=f"System error: {str(e)}"
+        )
