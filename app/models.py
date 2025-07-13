@@ -3,14 +3,10 @@ from typing import Optional, List
 from datetime import datetime
 
 class ChatCreate(BaseModel):
-    user_id: str
-    conversation_id: str
+    sender_email: str
+    receiver_email: str
     message: str
-    sender: str
     timestamp: Optional[datetime] = Field(default_factory=datetime.utcnow)
-
-class Chat(ChatCreate):
-    id: str
 
 class SummarizeRequest(BaseModel):
     conversation_id: str
@@ -25,7 +21,7 @@ class UserCreate(BaseModel):
     friends: List[str]= []
     pending_requests: List[str] = []
     sent_requests: List[str] = []
-    conversation_id: str   
+    messageId: List[str] = [] 
 
 class UserLogin(BaseModel):
     email: EmailStr = Field(..., description="Valid email address")

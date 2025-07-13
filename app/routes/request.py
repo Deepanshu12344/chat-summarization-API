@@ -10,6 +10,6 @@ async def send_request(receiver_email: str, current_user_email: str = Depends(ge
     return await send_friend_request(current_user_email, receiver_email)
 
 @router.post("/accept_req")
-async def send_request(receiver_email: str, current_user_email: str = Depends(get_current_user_email)):
-    return await accept_friend_request(current_user_email, receiver_email)
+async def send_request(sender_email: str, current_user_email: str = Depends(get_current_user_email)):
+    return await accept_friend_request(sender_email, current_user_email)
 
