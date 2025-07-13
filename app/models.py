@@ -4,6 +4,8 @@ from datetime import datetime
 
 class ChatCreate(BaseModel):
     message: str
+    sender_email: EmailStr
+    receiver_email: EmailStr
     timestamp: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
 class SummarizeRequest(BaseModel):

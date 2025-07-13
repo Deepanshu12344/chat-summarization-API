@@ -18,6 +18,6 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker build -t chat-summarization-API .
+      run: docker build -t chat-summarization-api .
     - name: push to dockerhub
-      run: docker push deepanshu091224/chat-summarization-API:latest
+      run: docker push deepanshu091224/chat-summarization-api:latest
