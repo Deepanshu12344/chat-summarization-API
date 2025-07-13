@@ -1,0 +1,20 @@
+name: CD Pipeline
+
+on:
+    workflow_run:
+        workflows: ["CI Pipeline"]
+        types:
+            - completed
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull docker image
+      run: sudo docker pull deepanshu091224/chat-summarization-api:latest
+    - name: delete old docker container
+      run: docker rm -f chat-summarization-api-container || true
+    - name: run docker 
+      run: sudo docker run -d -p 8080:8080 --name  chat-summarization-api-container deepanshu091224/chat-summarization-api
