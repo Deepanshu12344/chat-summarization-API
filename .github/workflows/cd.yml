@@ -9,7 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
-
+    
     steps:
     - name: Pull docker image
       run: sudo docker pull deepanshu091224/chat-summarization-api:latest
@@ -19,6 +19,6 @@ jobs:
 
     - name: Run docker container
       run: |
-        sudo docker run -d -p 8080:8080 \
+        sudo docker run -d -p 9000:9000 -p 8501:8501 \
           --name chat-summarization-api-container \
           deepanshu091224/chat-summarization-api:latest
