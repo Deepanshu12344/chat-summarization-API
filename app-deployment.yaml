@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  labels:
+    app: fullstack-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fullstack-app
+  template:
+    metadata:
+      labels:
+        app: fullstack-app
+    spec:
+      containers:
+      - name: fullstack-app
+        image: deepanshu091224/chat-summarization-api:latest
+        ports:
+        - containerPort: 9000
+        - containerPort: 8501

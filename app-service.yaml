@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: fullstack-app
+  ports:
+    - name: fastapi
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+    - name: streamlit
+      protocol: TCP
+      port: 8501
+      targetPort: 8501
+  type: ClusterIP
