@@ -6,7 +6,7 @@ export const Profile = () => {
     {name: "Deepanshu1209", status:"online"}
   ]
   return (
-    <div className='bg-[#5c5b5b] w-80 h-16 rounded-lg'>
+    <div className='bg-[#202024] w-80 h-16 rounded-lg'>
         <div>
             <img src='' alt=''/>
             <div>
