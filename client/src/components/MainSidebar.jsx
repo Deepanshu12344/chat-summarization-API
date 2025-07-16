@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 export const MainSidebar = () => {
+  const [tab, setTab] = useState('friends')
   const sidebarRef = useRef(null);
   const isResizingRef = useRef(false);
 
@@ -40,15 +41,15 @@ export const MainSidebar = () => {
       <div
         ref={sidebarRef}
         className="bg-[#121214] rounded-tl-xl h-full text-white"
-        style={{ width: '256px' }}
+        style={{ width: '300px', minWidth: '260px', maxWidth: '450px'  }}
       >
         <div className='h-12 p-2'>
             <button className='text-[13px] h-full w-full rounded-lg bg-[#222225]'>Find or start a conversation</button>
         </div>
 
         <div className='flex flex-col gap-3 w-full h-28 p-2'>
-            <button className='text-sm h-10 w-full rounded-lg bg-[#2c2c30]'>Friends</button>
-            <button className='text-sm h-10 w-full rounded-lg bg-[#2c2c30]'>Request</button>
+            <button onClick={()=>{setTab('friends')}} className='text-sm h-10 w-full rounded-lg bg-[#2c2c30]'>Friends</button>
+            <button onClick={()=>{setTab('Request')}} className='text-sm h-10 w-full rounded-lg bg-[#2c2c30]'>Request</button>
         </div>
       </div>
 

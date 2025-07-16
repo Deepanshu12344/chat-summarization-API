@@ -3,7 +3,7 @@ import { MainSidebar } from './MainSidebar';
 import { MainTopbar } from './MainTopbar';
 import { AllFriends } from './AllFriends';
 import { AddFriend } from './AddFriend';
-import { MainLeftbar } from './MainLeftbar';
+import { MainRightbar } from './MainRightbar';
 
 export const Main = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -30,7 +30,7 @@ export const Main = () => {
       </div>
 
      <div className="w-60 border-l border-[#29292d]">
-  <MainLeftbar />
+  <MainRightbar />
 </div>
     </div>
   );
