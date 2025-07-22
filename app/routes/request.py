@@ -22,3 +22,4 @@ async def accept_request(sender_username: str, current_user_email: str = Depends
 
     receiver_username = receiver["username"]
     return await accept_friend_request(sender_username, receiver_username)
+#
