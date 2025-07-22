@@ -8,10 +8,10 @@ def serialize_doc(doc):
     del doc["_id"]
     return doc
 
-async def chat_with_friend(sender_email:str, receiver_email:str, chat:ChatCreate):
+async def chat_with_friend(sender_id:str, receiver_id:str, chat:ChatCreate):
     try: 
-        receiver = await db.users.find_one({"email":receiver_email})
-        sender = await db.users.find_one({"email":sender_email})
+        receiver = await db.users.find_one({"_id":receiver_id})
+        sender = await db.users.find_one({"_id":sender_id})
 
         if not receiver or not sender:
             raise HTTPException(
@@ -19,7 +19,7 @@ async def chat_with_friend(sender_email:str, receiver_email:str, chat:ChatCreate
                 detail="user not exist"
             )
         
-        if sender_email not in receiver.get("friends",[]):
+        if sender_id not in receiver.get("friends",[]):
             raise HTTPException(
                 status_code=400,
                 detail="not friends"

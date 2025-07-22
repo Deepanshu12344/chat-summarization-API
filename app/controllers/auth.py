@@ -15,30 +15,38 @@ JWT_EXP_DELTA_MINUTES = 60
 
 
 # Register
-async def register(user:UserCreate):
-    #check existing user
-    existing_user = await db.users.find_one({"email":user.email})
-    if existing_user:
+async def register(user: UserCreate):
+    existing_email = await db.users.find_one({"email": user.email})
+    if existing_email:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered" 
+            detail="Email already registered"
         )
-    
-    #Hash password
+
+    existing_username = await db.users.find_one({"username": user.username})
+    if existing_username:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already taken"
+        )
+
+    # Hash password
     user_dict = user.dict()
     user_dict["password"] = bcrypt.hash(user.password)
     user_dict["friends"] = []
+    user_dict["pending_requests"] = []
+    user_dict["sent_requests"] = []
 
     try:
         result = await db.users.insert_one(user_dict)
         return JSONResponse(
             status_code=status.HTTP_201_CREATED,
-            content={"message":"User created successfully", "user_id": str(result.inserted_id)}
-        )   
-    except DuplicateKeyError as e: 
+            content={"message": "User created successfully", "user_id": str(result.inserted_id)}
+        )
+    except DuplicateKeyError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User with this Email already exists" 
+            detail="User with this Email or Username already exists"
         )
     except Exception as e:
         raise HTTPException(

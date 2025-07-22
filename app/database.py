@@ -17,4 +17,5 @@ async def init_indexes():
     await db.chats.create_index([("user_id", ASCENDING)])
     await db.chats.create_index([("conversation_id", ASCENDING)])
     await db.chats.create_index([("timestamp", ASCENDING)])
-    await db.users.create_index([("email", ASCENDING)], unique=True)
+    await db.users.create_index("email", unique=True)
+    await db.users.create_index("username", unique=True)
