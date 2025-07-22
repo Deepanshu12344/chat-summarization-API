@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Query
+from fastapi import APIRouter, HTTPException, Depends, Query, Body
 from app.models import ChatCreate, SummarizeRequest, SummaryResponse
 from app.crud import insert_chat, get_conversation, delete_conversation
 from app.llm_utils import summarize_chat, analyze_conversation
@@ -14,40 +14,29 @@ def serialize_doc(doc):
 
 router = APIRouter()
 
+
 @router.post("/send_msg")
-async def send_message(receiver_email: str = Query(...),  chat: ChatCreate = ..., current_user_email: str = Depends(get_current_user_email)):
-    return await chat_with_friend(current_user_email, receiver_email, chat)
+async def send_message(
+    receiver_username: str = Query(...),
+    message: str = Body(..., embed=True),
+    current_user_email: str = Depends(get_current_user_email)
+):
+    sender = await db.users.find_one({"email": current_user_email})
+    if not sender:
+        raise HTTPException(status_code=404, detail="Sender not found")
+
+    sender_username = sender.get("username")
+    return await chat_with_friend(sender_username, receiver_username, message)
+
 
 @router.get("/get_msg")
-async def recv_msg(receiver_email: str = Query(...), current_user_email: str = Depends(get_current_user_email)):
-    return await get_message(current_user_email, receiver_email)
+async def recv_msg(
+    receiver_username: str = Query(...),
+    current_user_email: str = Depends(get_current_user_email)
+):
+    sender = await db.users.find_one({"email": current_user_email})
+    if not sender:
+        raise HTTPException(status_code=404, detail="Sender not found")
 
-# @router.post("/chats")
-# async def store_chat(chat: ChatCreate):
-#     await insert_chat(chat)
-#     return {"message": "Chat stored"}
-
-# @router.get("/chats/{conversation_id}")
-# async def get_conversation(conversation_id: str):   
-#     docs = await db.chats.find({"conversation_id": conversation_id}).to_list(1000)
-#     return [serialize_doc(doc) for doc in docs]
-
-
-# @router.delete("/chats/{conversation_id}")
-# async def delete_chat(conversation_id: str):
-#     await delete_conversation(conversation_id)
-#     return {"message": "Conversation deleted"}
-
-# @router.post("/chats/summarize", response_model=SummaryResponse)
-# async def summarize(request: SummarizeRequest):
-#     chat = await get_conversation(request.conversation_id)
-#     messages = [c["message"] for c in chat]
-#     summary = await summarize_chat(messages)
-#     return {"summary": summary}
-
-# @router.post("/chats/analyze", response_model=SummaryResponse)
-# async def analyze(request: SummarizeRequest):
-#     chat = await get_conversation(request.conversation_id)
-#     messages = [c["message"] for c in chat]
-#     analysis = await analyze_conversation(messages)
-#     return {"summary": analysis}
+    sender_username = sender.get("username")
+    return await get_message(sender_username, receiver_username)
